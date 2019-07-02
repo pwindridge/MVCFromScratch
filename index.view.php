@@ -1,10 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Modules List</title>
-</head>
-<body>
+<?php require 'partials/head.php'; ?>
 
 <h1>List of Modules</h1>
 <ul>
@@ -15,5 +9,4 @@
     <?php endforeach; ?>
 </ul>
 
-</body>
-</html>
+<?php require 'partials/foot.php'; ?>
