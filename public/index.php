@@ -5,7 +5,8 @@ require '../bootstrap.php';
 $routes = [
     '' => '../index.php',
     'index' => '../index.php',
-    'home' => '../index.php'
+    'home' => '../index.php',
+    'about' => '../about.php'
 ];
 
 $uri = trim($_SERVER['REQUEST_URI'], '/');
