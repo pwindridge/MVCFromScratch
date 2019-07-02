@@ -7,4 +7,6 @@ $modules = [
     "COSE50637" => "Engineering Software Applications"
 ];
 
-require 'index.view.php';
+$title = "Home Page";
+
+require 'home.view.php';

@@ -3,9 +3,8 @@
 require '../bootstrap.php';
 
 $routes = [
-    '' => '../index.php',
-    'index' => '../index.php',
-    'home' => '../index.php',
+    '' => '../home.php',
+    'home' => '../home.php',
     'about' => '../about.php'
 ];
 
