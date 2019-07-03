@@ -1,0 +1,8 @@
+{
+  "autoload": {
+    "psr-4": {
+      "Modules\\": "app/",
+      "Core\\": "core/"
+    }
+  }
+}
