@@ -1,11 +1,17 @@
 <?php
 
 
-use \Core\Router;
+use \Core\{Request, Router};
+
 
 require '../core/bootstrap.php';
 
+try {
 
-$uri = trim($_SERVER['REQUEST_URI'], '/');
+    require Router::load('../routes.php')
+        ->direct(Request::uri());
 
-require Router::load('../routes.php')->direct($uri);
+} catch (Exception $e) {
+
+    header ("location: /pagenotfound");
+}
