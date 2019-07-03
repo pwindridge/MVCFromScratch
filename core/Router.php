@@ -33,9 +33,22 @@ class Router {
     public function direct (string $uri)
     {
         if (! array_key_exists($uri, $this->routes)) {
-            throw new Exception();
+            throw new Exception("Array key does not exist");
         }
 
-        return $this->routes[$uri];
+        return $this->call(
+            ...explode('@', $this->routes[$uri])
+        );
+    }
+
+    private function call($controller, $action)
+    {
+        $controller = "\\Modules\\Controllers\\{$controller}";
+
+        if (! method_exists($controller, $action)) {
+            throw new Exception("Method does not exist in the controller");
+        }
+
+        return (new $controller())->$action();
     }
 }
