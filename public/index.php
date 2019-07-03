@@ -1,11 +1,11 @@
 <?php
 
-require '../bootstrap.php';
+require '../core/bootstrap.php';
 
 $routes = [
-    '' => '../home.php',
-    'home' => '../home.php',
-    'about' => '../about.php'
+    '' => '../app/controllers/home.php',
+    'home' => '../app/controllers/home.php',
+    'about' => '../app/controllers/about.php'
 ];
 
 $uri = trim($_SERVER['REQUEST_URI'], '/');

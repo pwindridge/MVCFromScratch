@@ -9,4 +9,4 @@ $modules = [
 
 $title = "Home Page";
 
-require 'home.view.php';
+require '../views/home.view.php';
