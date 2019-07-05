@@ -3,7 +3,8 @@
 namespace Modules\Controllers;
 
 
-use \PDO, \PDOException;
+use \Core\App;
+use Exception;
 
 
 class PagesController {
@@ -11,26 +12,15 @@ class PagesController {
     public function home()
     {
         try {
-            $pdo = new PDO (
-                "mysql:host=localhost;dbname=test",
-                "test",
-                "test",
-                [
-                    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                    PDO::ATTR_EMULATE_PREPARES => false,
-                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ
-                ]
+
+            $modules = array_column(
+                App::get('database')->selectAll('modules'),
+                'module_name'
             );
 
-            $sth = $pdo->prepare("SELECT * FROM `modules`;");
-
-            $sth->execute();
-
-        } catch (PDOException $e) {
+        } catch (Exception $e) {
             return (new ErrorsController())->service_unavailable();
         }
-
-        $modules = array_column($sth->fetchAll(), 'module_name');
 
         $title = "Home Page";
 
