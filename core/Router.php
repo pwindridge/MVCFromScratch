@@ -13,15 +13,25 @@ class Router {
     /**
      * @param array $routes
      */
-    public function define(array $routes)
+    public function get(string $uri, string $route)
     {
-        $this->routes = $routes;
+        $this->routes['GET'][$uri] = $route;
+    }
+
+    /**
+     * @param array $routes
+     */
+    public function post(string $uri, string $route)
+    {
+        $this->routes['POST'][$uri] = $route;
     }
 
     public static function load(string $file)
     {
         $router = new static;
-        $router->define(require $file);
+
+        require $file;
+
         return $router;
     }
 
@@ -30,14 +40,14 @@ class Router {
      * @return string filepath
      * @throws Exception
      */
-    public function direct (string $uri)
+    public function direct (string $uri, string $method)
     {
-        if (! array_key_exists($uri, $this->routes)) {
+        if (! array_key_exists($uri, $this->routes[$method])) {
             throw new Exception("Array key does not exist");
         }
 
         return $this->call(
-            ...explode('@', $this->routes[$uri])
+            ...explode('@', $this->routes[$method][$uri])
         );
     }
 

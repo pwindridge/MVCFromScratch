@@ -9,7 +9,7 @@ require '../core/bootstrap.php';
 try {
 
     Router::load('../routes.php')
-        ->direct(Request::uri());
+        ->direct(Request::uri(), Request::method());
 
 } catch (Exception $e) {
 

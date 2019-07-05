@@ -9,7 +9,7 @@
 
         <div>
             <label for="title">Module Title:</label>
-            <input type="text" style="width: 180px" id="title" placeholder="Module Title" name="title" <?= $moduleTitle; ?>>
+            <input type="text" id="title" placeholder="Module Title" name="title" size="40" <?= $moduleTitle; ?>>
         </div>
         <div>
             <button type="submit">Search Modules</button>

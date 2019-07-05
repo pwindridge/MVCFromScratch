@@ -48,4 +48,18 @@ class PagesController {
             compact('title', 'code', 'moduleTitle')
         );
     }
+
+    public function addModule()
+    {
+        $title = "Add Module";
+
+        return view ('addModule', compact('title'));
+    }
+
+    public function store()
+    {
+        $this->modules[$_POST['code']] = $_POST['module'];
+
+        return $this->home();
+    }
 }
