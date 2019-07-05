@@ -1,26 +1,43 @@
 <?php
 
-
 namespace Modules\Controllers;
+
+
+use \PDO, \PDOException;
 
 
 class PagesController {
 
-    private $modules = [
-        "COMP50016" => "Server-Side Programming",
-        "COSE50582" => "Object-Oriented Application Engineering",
-        "COSE50586" => "Web and Mobile Application Development",
-        "COSE50637" => "Engineering Software Applications"
-    ];
-
     public function home()
     {
+        try {
+            $pdo = new PDO (
+                "mysql:host=localhost;dbname=test",
+                "test",
+                "test",
+                [
+                    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                    PDO::ATTR_EMULATE_PREPARES => false,
+                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ
+                ]
+            );
+
+            $sth = $pdo->prepare("SELECT * FROM `modules`;");
+
+            $sth->execute();
+
+        } catch (PDOException $e) {
+            return (new ErrorsController())->service_unavailable();
+        }
+
+        $modules = array_column($sth->fetchAll(), 'module_name');
+
         $title = "Home Page";
 
         return view('home',
             [
                 'title' => $title,
-                'modules' => $this->modules
+                'modules' => $modules
             ]
         );
     }
@@ -53,7 +70,7 @@ class PagesController {
     {
         $title = "Add Module";
 
-        return view ('addModule', compact('title'));
+        return view('addModule', compact('title'));
     }
 
     public function store()
