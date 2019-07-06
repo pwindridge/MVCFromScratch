@@ -47,7 +47,11 @@ class PagesController {
         $moduleTitle = '';
 
         if (isset($_GET['title'])) {
-            $code = array_search($_GET['title'], $this->modules);
+
+            $code = App::get('database')
+                ->select('modules', 'module_code')
+                ->where('module_name', '=', $_GET['title']);
+            dd($code);
             $moduleTitle = "value=\"{$_GET['title']}\"";
         }
 

@@ -29,4 +29,8 @@ class QueryBuilder {
 
         return $sth->fetchAll();
     }
+
+    public function select(string $table, array $fields) {
+        
+    }
 }
