@@ -5,6 +5,7 @@ namespace Modules\Controllers;
 
 use \Core\App;
 use Exception;
+use PDO;
 
 
 class PagesController {
@@ -48,10 +49,18 @@ class PagesController {
 
         if (isset($_GET['title'])) {
 
-            $code = App::get('database')
-                ->select('modules', 'module_code')
-                ->where('module_name', '=', $_GET['title']);
-            dd($code);
+            try {
+
+                $code = App::get('database')
+                    ->select('modules', ['module_code'])
+                    ->where('module_name', '=', $_GET['title'])
+                    ->execute()
+                    ->fetch()->module_code;
+
+            } catch (\PDOException $pexc) {
+                $code = "The module code for {$_GET['title']} could not be found";
+            }
+
             $moduleTitle = "value=\"{$_GET['title']}\"";
         }
 
@@ -69,8 +78,21 @@ class PagesController {
 
     public function store()
     {
-        $this->modules[$_POST['code']] = $_POST['module'];
+        try {
 
+            App::get('database')->insert('modules', [
+                'module_code' => $_POST['code'],
+                'module_name' => $_POST['module']
+            ]);
+
+        } catch (\PDOException $pexc) {
+
+            return view('addModule',  [
+                'title' => "Add Module",
+                'moduleCode' => " value=\"{$_POST['code']}\"",
+                'moduleName' => " value=\"{$_POST['module']}\""
+            ]);
+        }
         return $this->home();
     }
 }

@@ -9,12 +9,12 @@
 
         <div>
             <label for="code">Module Code:</label>
-            <input type="text" id="code" name="code" placeholder="module code" maxlength="9">
+            <input type="text" id="code" name="code" placeholder="module code" maxlength="9"<?= $moduleCode??'' ?>>
         </div>
 
         <div>
             <label for="module">Module Title:</label>
-            <input type="text" id="module" name="module" placeholder="module title" maxlength="50">
+            <input type="text" id="module" name="module" placeholder="module title" maxlength="50"<?= $moduleName??'' ?>>
         </div>
 
         <div>

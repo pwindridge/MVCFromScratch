@@ -58,7 +58,6 @@ class Router {
         if (! method_exists($controller, $action)) {
             throw new Exception("Method does not exist in the controller");
         }
-
         return (new $controller())->$action();
     }
 }

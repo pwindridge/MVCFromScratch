@@ -2,6 +2,7 @@
 
 
 use \Core\{Request, Router};
+use \Modules\Controllers\ErrorsController;
 
 
 require '../core/bootstrap.php';
@@ -12,6 +13,5 @@ try {
         ->direct(Request::uri(), Request::method());
 
 } catch (Exception $e) {
-
-    header ("location: /pagenotfound");
+    return (new ErrorsController())->page_not_found();
 }
