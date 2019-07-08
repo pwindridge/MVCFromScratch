@@ -31,7 +31,8 @@ abstract class Query {
         }
 
         $sth->execute();
-
+        $this->bindValues = [];
+        $this->queryString = '';
         return new Result($sth);
     }
 }
