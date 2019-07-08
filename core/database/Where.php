@@ -12,6 +12,7 @@ class Where extends Query {
     {
         $this->pdo = $query->pdo;
         $this->queryString = $query->queryString;
+        $this->bindValues = $query->bindValues;
     }
 
     public function where(string $field, string $operator, string $value)

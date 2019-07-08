@@ -16,9 +16,7 @@ class QueryBuilder extends Query {
 
     public function selectAll(string $fromTable)
     {
-//        $sth = $this->pdo->prepare(
         $this->queryString = "SELECT * FROM `{$fromTable}`";
-//        );
 
         return $this->execute()->fetchAll();
     }
@@ -49,7 +47,27 @@ class QueryBuilder extends Query {
 
         $this->bindValues = array_values($parameters);
 
-        $this->execute();
+        return $this->execute()->rowsAffected();
+    }
+
+    public function update(string $table, array $parameters)
+    {
+        $this->queryString = "UPDATE `{$table}`" .
+            " SET " .
+            implode(',',
+                array_map(function ($key, $value) {
+                    return "`{$key}` = ?";
+                }, array_keys($parameters), $parameters)
+            );
+        $this->bindValues = array_values($parameters);
+        return new Where($this);
+    }
+
+    public function delete(string $fromTable)
+    {
+        $this->queryString = "DELETE FROM `{$fromTable}`";
+        return new Where($this);
+
     }
 
     private function backtick(array $arr)
