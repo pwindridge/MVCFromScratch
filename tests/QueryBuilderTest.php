@@ -88,7 +88,7 @@ class QueryBuilderTest extends TestCase {
             ]
         ];
 
-        $this->assertEquals($actual, $expected);
+        $this->assertEquals($expected, $actual);
     }
 
     public function testSelectTwoFieldsAllRecords()
@@ -116,7 +116,7 @@ class QueryBuilderTest extends TestCase {
             ]
         ];
 
-        $this->assertEquals($actual, $expected);
+        $this->assertEquals($expected, $actual);
     }
 
     public function testSelectOneFieldWhere()
@@ -128,7 +128,7 @@ class QueryBuilderTest extends TestCase {
 
         $expected = [(object)['field2' => 'rec3val2']];
 
-        $this->assertEquals($actual, $expected);
+        $this->assertEquals($expected, $actual);
     }
 
     public function testSelectOneFieldWhereAnd()
@@ -141,7 +141,7 @@ class QueryBuilderTest extends TestCase {
 
         $expected = [(object)['field2' => 'rec3val2']];
 
-        $this->assertEquals($actual, $expected);
+        $this->assertEquals($expected, $actual);
     }
 
     public function testSelectOneFieldWhereOr()
@@ -161,7 +161,7 @@ class QueryBuilderTest extends TestCase {
             ]
         ];
 
-        $this->assertEquals($actual, $expected);
+        $this->assertEquals($expected, $actual);
     }
 
     public function testInsert()
@@ -197,7 +197,7 @@ class QueryBuilderTest extends TestCase {
             ]
         ];
 
-        $this->assertEquals($actual, $expected);
+        $this->assertEquals($expected, $actual);
         $this->assertEquals(1, $actualRowCount);
     }
 
@@ -227,7 +227,7 @@ class QueryBuilderTest extends TestCase {
             ]
         ];
 
-        $this->assertEquals($actual, $expected);
+        $this->assertEquals($expected, $actual);
     }
 
     public function testUpdateOneRecordOneField()
@@ -257,7 +257,7 @@ class QueryBuilderTest extends TestCase {
             ]
         ];
 
-        $this->assertEquals($actual, $expected);
+        $this->assertEquals($expected, $actual);
     }
 
     public function testUpdateOneRecordTwoFields()
@@ -290,16 +290,14 @@ class QueryBuilderTest extends TestCase {
             ]
         ];
 
-        $this->assertEquals($actual, $expected);
+        $this->assertEquals($expected, $actual);
     }
 
     public function testDeleteAllRecords()
     {
-        App::get('database')->delete('test_table')->execute();
+        $actual = App::get('database')->delete('test_table')->execute()->rowsAffected();
 
-        $actual = App::get('database')->selectAll('test_table');
-
-        $this->assertEquals(0, count($actual));
+        $this->assertEquals(4, $actual);
     }
 
     public function testDeleteOneRecord()
@@ -325,6 +323,6 @@ class QueryBuilderTest extends TestCase {
             ]
         ];
 
-        $this->assertEquals($actual, $expected);
+        $this->assertEquals($expected, $actual);
     }
 }
