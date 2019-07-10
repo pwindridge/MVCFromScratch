@@ -14,10 +14,7 @@ class PagesController {
     {
         try {
 
-            $modules = array_column(
-                App::get('database')->selectAll('modules'),
-                'module_name'
-            );
+            $modules = App::get('database')->selectAll('modules');
 
         } catch (Exception $e) {
             return (new ErrorsController())->service_unavailable();
@@ -93,6 +90,45 @@ class PagesController {
                 'moduleName' => " value=\"{$_POST['module']}\""
             ]);
         }
+        return $this->home();
+    }
+
+    public function detail()
+    {
+        $title = "Module Detail";
+
+        $view = 'detail';
+
+        if (isset($_GET['mode'])) {
+            $view = $_GET['mode'] == 'edit' ? 'edit' : 'delete';
+        }
+
+        $record = App::get('database')->select('modules', ['module_code', 'module_name'])
+            ->where('module_code', '=', $_GET['code'])
+            ->execute()
+            ->fetch();
+
+        return view ($view, compact('title','record'));
+    }
+
+    public function edit()
+    {
+        App::get('database')->update('modules', [
+            'module_code' => $_POST['module_code'],
+            'module_name' => $_POST['module_name']
+        ])
+            ->where('module_code', '=', $_POST['original_module_code'])
+            ->execute();
+
+        return $this->home();
+    }
+
+    public function delete()
+    {
+        App::get('database')->delete('modules')
+            ->where('module_code', '=', $_POST['module_code'])
+            ->execute();
+
         return $this->home();
     }
 }

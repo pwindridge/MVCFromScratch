@@ -4,8 +4,10 @@
 <ul>
     <?php foreach ($modules as $module): ?>
 
-    <li><?= $module ?></li>
-
+        <li><?= $module->module_name ?>
+            <a href="/detail?mode=edit&code=<?= $module->module_code ?>">Edit</a>
+            <a href="/detail?mode=delete&code=<?= $module->module_code ?>">Delete</a>
+        </li>
     <?php endforeach; ?>
 </ul>
 
