@@ -12,6 +12,7 @@ class PagesController {
 
     public function home()
     {
+        $_SESSION['user'] = 'logged in';
         try {
 
             $modules = App::get('database')->selectAll('modules');
@@ -19,6 +20,9 @@ class PagesController {
         } catch (Exception $e) {
             return (new ErrorsController())->service_unavailable();
         }
+
+        $userStatus = $_SESSION['user'];
+
 
         $title = "Home Page";
 
