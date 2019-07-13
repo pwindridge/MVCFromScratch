@@ -12,7 +12,6 @@ class PagesController {
 
     public function home()
     {
-        $_SESSION['user'] = 'logged in';
         try {
 
             $modules = App::get('database')->selectAll('modules');
@@ -20,9 +19,6 @@ class PagesController {
         } catch (Exception $e) {
             return (new ErrorsController())->service_unavailable();
         }
-
-        $userStatus = $_SESSION['user'];
-
 
         $title = "Home Page";
 
@@ -79,6 +75,13 @@ class PagesController {
 
     public function store()
     {
+        if (! validate([
+            'code' => ['string', '9', '9', 'required'],
+            'module' => ['string', '5', '50']
+        ])) {
+            return $this->addModule();
+        }
+
         try {
 
             App::get('database')->insert('modules', [
