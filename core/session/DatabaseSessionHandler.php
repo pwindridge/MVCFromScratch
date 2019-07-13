@@ -8,8 +8,16 @@ use SessionHandlerInterface, PDOException;
 use \Core\App;
 
 
+/**
+ * Class DatabaseSessionHandler
+ * @package Core\Session
+ */
 class DatabaseSessionHandler implements SessionHandlerInterface {
 
+    /**
+     * DatabaseSessionHandler constructor.
+     * @throws \Exception
+     */
     public function __construct()
     {
         App::get('PDOConn')->query(
@@ -24,11 +32,19 @@ class DatabaseSessionHandler implements SessionHandlerInterface {
         session_start();
     }
 
+    /**
+     * @return bool
+     */
     public function close()
     {
         return true;
     }
 
+    /**
+     * @param string $session_id
+     * @return bool
+     * @throws \Exception
+     */
     public function destroy($session_id)
     {
         App::get('database')->delete('sessions')
@@ -37,6 +53,11 @@ class DatabaseSessionHandler implements SessionHandlerInterface {
         return true;
     }
 
+    /**
+     * @param int $maxlifetime
+     * @return bool
+     * @throws \Exception
+     */
     public function gc($maxlifetime)
     {
         App::get('database')->delete('sessions')
@@ -45,11 +66,21 @@ class DatabaseSessionHandler implements SessionHandlerInterface {
         return true;
     }
 
+    /**
+     * @param string $save_path
+     * @param string $name
+     * @return bool
+     */
     public function open($save_path, $name)
     {
         return true;
     }
 
+    /**
+     * @param string $session_id
+     * @return string
+     * @throws \Exception
+     */
     public function read($session_id)
     {
         $session = App::get('database')->select('sessions', ['sess_data'])
@@ -60,6 +91,12 @@ class DatabaseSessionHandler implements SessionHandlerInterface {
         return $session ? $session->sess_data : '';
     }
 
+    /**
+     * @param string $session_id
+     * @param string $session_data
+     * @return bool
+     * @throws \Exception
+     */
     public function write($session_id, $session_data)
     {
         try {
@@ -69,7 +106,7 @@ class DatabaseSessionHandler implements SessionHandlerInterface {
                 'modified' => time()
             ]);
         } catch (PDOException $pexc) {
-            if ($pexc->getCode() == 23000) {
+            if ($pexc->getCode() == 23000) { // session id already exists
                 App::get('database')->update('sessions', [
                     'sess_data' => $session_data,
                     'modified' => time()
